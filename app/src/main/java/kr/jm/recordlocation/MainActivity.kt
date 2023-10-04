@@ -1,7 +1,9 @@
 package kr.jm.recordlocation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,9 +38,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     SelectMode() {
                         if (it) {
-                            Toast.makeText(this, "추가예정", Toast.LENGTH_SHORT).show()
+
                         } else {
-                            Toast.makeText(this, "추가예정", Toast.LENGTH_SHORT).show()
+                            recordLocation(this)
                         }
                     }
                 }
@@ -90,4 +92,12 @@ fun SelectMode(onClicked: (Boolean) -> Unit) {
             }
         }
     }
+}
+
+private fun recordLocation(context: Context) {
+    val locationProvider = LocationProvider(context)
+    val latitude = locationProvider.getLocationLatitude()
+    val longitude = locationProvider.getLocationLongitude()
+    Log.e("latitude", latitude.toString())
+    Log.e("longitude", longitude.toString())
 }
