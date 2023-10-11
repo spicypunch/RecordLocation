@@ -35,6 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import kr.jm.recordlocation.ui.theme.RecordLocationTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,13 +49,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SelectMode() {
-                        if (it) {
-
-                        } else {
-                            recordLocation(this)
-                        }
-                    }
+                    App()
                 }
             }
         }
@@ -62,43 +59,21 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SelectMode(onClicked: (Boolean) -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text(text = "마루") })
+fun App() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable(route = "home") {
+            HomeScreen() { result ->
+                if (result) {
+                    navController.navigate("map")
+                } else {
+
+                }
+            }
         }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Card(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(1f)
-                        .height(100.dp)
-                        .clickable { onClicked(true) }
-                ) {
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        Text(text = "지도로 위치 보기", textAlign = TextAlign.Center)
-                    }
-                }
-                Card(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(1f)
-                        .height(100.dp)
-                        .clickable { onClicked(false) }
-                ) {
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        Text(text = "현재 주소 찍기", textAlign = TextAlign.Center)
-                    }
-                }
+        composable(route = "map") {
+            GoogleMapScreen() {
+                navController.popBackStack()
             }
         }
     }
@@ -112,57 +87,58 @@ fun RequestLocationPermissions() {
         android.Manifest.permission.ACCESS_COARSE_LOCATION
     )
     var grantList by remember { mutableStateOf(mutableListOf(false)) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        grantList = it.values.toMutableList()
-    }
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            grantList = it.values.toMutableList()
+        }
 
     LaunchedEffect(permissionList) {
 
     }
 
-    when {
-        // 두 권한 모두 허용됐을 경우
-        permissionStateFineLocation.hasPermission && permissionStateCoarseLocation.hasPermission -> {
-            Text("위치 접근 권한이 승인되었습니다.")
-            // TODO: 위치 정보를 사용하는 로직을 여기에 추가하세요.
-        }
-        // 두 권한 중 하나라도 거부되었을 경우, 재요청 다이얼로그 표시
-        (permissionStateFineLocation.shouldShowRationale ||
-                permissionStateCoarseLocation.shouldShowRationale) -> {
-
-            AlertDialog(
-                onDismissRequest = { /*TODO*/ },
-                title = { Text("권한 필요") },
-                text = { Text("이 앱은 위치 정보에 접근해야 합니다.") },
-                confirmButton = {
-                    Button(onClick = {
-                        // 재요청
-                        LaunchedEffect(permissionStateFineLocation, permissionStateCoarseLocation) {
-                            permissionStateFineLocation.launchPermissionRequest()
-                            permissionStaateCoarseLocaiton.launchPermissionRequest()
-                        }
-                    }) {
-                        Text("확인")
-                    }
-                },
-                dismissButton = {
-                    Button(onClick = { /*TODO*/ }) { Text("취소") }
-                }
-            )
-        }
-
-        else -> {
-            if (!permissionStaateFineLocaiton.permissionRequested || !permissionStaateCoarseLocaiton.permissionRequested) {
-                LaunchedEffect(permissionStaateFineLocaiton, permissionStaateCoarseLocaiton) {
-                    // 처음으로 요청하거나 거부 후 '더 이상 묻지 않음' 선택 시 재요청
-                    permissioanStaateFinelocaiton.launchPermissioanReqeust()
-                    permissioanstaetcoarselocaitn.laucnhpermissiaoreqest()
-                }
-            } else {
-                Toast.makeText(context, "위치관련 굿단이 필요합니다.", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+//    when {
+//        // 두 권한 모두 허용됐을 경우
+//        permissionStateFineLocation.hasPermission && permissionStateCoarseLocation.hasPermission -> {
+//            Text("위치 접근 권한이 승인되었습니다.")
+//            // TODO: 위치 정보를 사용하는 로직을 여기에 추가하세요.
+//        }
+//        // 두 권한 중 하나라도 거부되었을 경우, 재요청 다이얼로그 표시
+//        (permissionStateFineLocation.shouldShowRationale ||
+//                permissionStateCoarseLocation.shouldShowRationale) -> {
+//
+//            AlertDialog(
+//                onDismissRequest = { /*TODO*/ },
+//                title = { Text("권한 필요") },
+//                text = { Text("이 앱은 위치 정보에 접근해야 합니다.") },
+//                confirmButton = {
+//                    Button(onClick = {
+//                        // 재요청
+//                        LaunchedEffect(permissionStateFineLocation, permissionStateCoarseLocation) {
+//                            permissionStateFineLocation.launchPermissionRequest()
+//                            permissionStaateCoarseLocaiton.launchPermissionRequest()
+//                        }
+//                    }) {
+//                        Text("확인")
+//                    }
+//                },
+//                dismissButton = {
+//                    Button(onClick = { /*TODO*/ }) { Text("취소") }
+//                }
+//            )
+//        }
+//
+//        else -> {
+//            if (!permissionStaateFineLocaiton.permissionRequested || !permissionStaateCoarseLocaiton.permissionRequested) {
+//                LaunchedEffect(permissionStaateFineLocaiton, permissionStaateCoarseLocaiton) {
+//                    // 처음으로 요청하거나 거부 후 '더 이상 묻지 않음' 선택 시 재요청
+//                    permissioanStaateFinelocaiton.launchPermissioanReqeust()
+//                    permissioanstaetcoarselocaitn.laucnhpermissiaoreqest()
+//                }
+//            } else {
+//                Toast.makeText(context, "위치관련 굿단이 필요합니다.", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 }
 
 private fun recordLocation(context: Context) {
