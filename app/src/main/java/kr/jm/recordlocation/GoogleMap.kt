@@ -1,58 +1,47 @@
 package kr.jm.recordlocation
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GoogleMapScreen(onClickeBack: () -> Unit) {
-    val latLng = LatLng(37.7387295, 127.0458908)
+fun GoogleMapScreen() {
+    val context = LocalContext.current
+    val latLng = getMyLocation(context)
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(latLng, 15f)
+        position = CameraPosition.fromLatLngZoom(latLng, 17f)
     }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "지도마루", modifier = Modifier.padding(start = 8.dp)) },
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "home",
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .clickable { onClickeBack() })
-                }
-            )
-        }
+    val uiSettings = remember {
+        MapUiSettings(myLocationButtonEnabled = true)
+    }
+    val properties by remember {
+        mutableStateOf(MapProperties(isMyLocationEnabled = true))
+    }
+    GoogleMap(
+        modifier = Modifier.fillMaxSize(),
+        cameraPositionState = cameraPositionState,
+        properties = properties,
+        uiSettings = uiSettings
     ) {
-        GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
-        ) {
-            Marker(
-                state = MarkerState(position = latLng),
-                title = "의정부역",
-                snippet = "Uijeongbu subway"
-            )
-        }
     }
+}
+
+fun getMyLocation(context: Context): LatLng {
+    val locationProvider = LocationProvider(context)
+    val latitude = locationProvider.getLocationLatitude()
+    val longitude = locationProvider.getLocationLongitude()
+    return LatLng(latitude, longitude)
 }

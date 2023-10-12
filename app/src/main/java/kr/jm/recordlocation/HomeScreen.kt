@@ -53,7 +53,7 @@ fun HomeScreen(onclicked: (Boolean) -> Unit) {
                         .clickable { onclicked(false) }
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        Text(text = "현재 주소 찍기", textAlign = TextAlign.Center)
+                        Text(text = "현재 주소 \n 기록하기", textAlign = TextAlign.Center)
                     }
                 }
             }
