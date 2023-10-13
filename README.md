@@ -7,3 +7,11 @@
 > 지도에서 그 위도와 경도를 기반으로 마커를 표시해서
 > 
 > 차를 쉽게 찾을 수 있게 도와주는 앱
+
+
+## 사용된 라이브러리
+- Compose
+- Navigation
+- DataStore
+- GoogleMap
+- TedPermission
