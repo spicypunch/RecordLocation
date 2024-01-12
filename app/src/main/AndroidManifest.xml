@@ -18,12 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-<<<<<<< HEAD
-            android:value="${GOOGLE_MAP_API_KEY}" />
-=======
-            android:value=""
-            />
->>>>>>> origin/main
+android:value="${GOOGLE_MAP_API_KEY}" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
