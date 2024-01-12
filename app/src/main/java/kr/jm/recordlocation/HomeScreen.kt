@@ -43,7 +43,6 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                         .height(100.dp)
                         .combinedClickable(
                             onClick = { onClicked(1) },
-                            onLongClick = { onClicked(3) }
                         )
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
