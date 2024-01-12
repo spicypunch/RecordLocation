@@ -1,8 +1,13 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "kr.jm.recordlocation"
@@ -19,6 +24,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        manifestPlaceholders["GOOGLE_MAP_API_KEY"] = project.properties["GOOGLE_MAP_API_KEY"].toString()
     }
 
     buildTypes {
@@ -68,7 +75,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //google map
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.google.maps.android:maps-compose:2.9.0")
 
@@ -85,4 +92,8 @@ dependencies {
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }

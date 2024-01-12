@@ -54,7 +54,7 @@ fun App(context: Context) {
                         scope.launch {
                             dataStore.saveLatitude(latLng.latitude)
                             dataStore.saveLongitude(latLng.longitude)
-                            Toast.makeText(context, "기록 되었습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "location has been saved.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -70,18 +70,17 @@ private fun requestPermission(context: Context) {
     TedPermission.create()
         .setPermissionListener(object : PermissionListener {
             override fun onPermissionGranted() {
-                // TODO:
             }
 
             override fun onPermissionDenied(deniedPermissions: List<String>) {
                 Toast.makeText(
                     context,
-                    "권한을 허가해주세요.",
+                    "permission request",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         })
-        .setDeniedMessage("권한을 허용해주세요. [설정] > [앱 및 알림] > [고급] > [앱 권한]")
+        .setDeniedMessage("Please grant permission. [Settings] > [Apps & notifications] > [Advanced] > [App permissions]")
         .setPermissions(
             android.Manifest.permission.ACCESS_FINE_LOCATION,
             android.Manifest.permission.ACCESS_COARSE_LOCATION
