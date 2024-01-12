@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(onClicked: (Int) -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "마루") })
+            TopAppBar(title = { Text(text = "Save My Location") })
         }
     ) {
         Box(
@@ -41,12 +41,10 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                         .padding(8.dp)
                         .weight(1f)
                         .height(100.dp)
-                        .combinedClickable(
-                            onClick = { onClicked(1) },
-                        )
+                        .clickable { onClicked(1) },
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        Text(text = "지도로 위치 보기", textAlign = TextAlign.Center)
+                        Text(text = "View Location on Map", textAlign = TextAlign.Center)
                     }
                 }
                 Card(
@@ -57,7 +55,7 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                         .clickable { onClicked(2) }
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        Text(text = "현재 주소\n기록하기", textAlign = TextAlign.Center)
+                        Text(text = "Save the current location", textAlign = TextAlign.Center)
                     }
                 }
             }
