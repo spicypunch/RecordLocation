@@ -57,15 +57,11 @@ fun App(context: Context) {
                             Toast.makeText(context, "기록 되었습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    3 -> navController.navigate("sua")
                 }
             }
         }
         composable(route = "map") {
             GoogleMapScreen()
-        }
-        composable(route = "sua") {
-            SuaScreen()
         }
     }
 }
