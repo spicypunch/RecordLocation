@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "570250166461",
+    "project_id": "recordlocation-401701",
+    "storage_bucket": "recordlocation-401701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570250166461:android:fb8c824bcf78374c9fb7d4",
+        "android_client_info": {
+          "package_name": "kr.jm.recordlocation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLKNEuH5RXzQMOAEZJmlNz5iGlcB8mFAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
