@@ -18,7 +18,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAP_API_KEY}" />
+            android:value="AIzaSyDLKNEuH5RXzQMOAEZJmlNz5iGlcB8mFAM" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8908663103547451~9362542595" />
 
         <activity
             android:name=".MainActivity"
@@ -26,10 +30,8 @@
             android:theme="@style/Theme.RecordLocation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
