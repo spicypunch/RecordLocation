@@ -31,7 +31,7 @@ import com.google.android.gms.ads.AdView
 fun HomeScreen(onClicked: (Int) -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Save My Location") })
+            TopAppBar(title = { Text(text = "Record My Location") })
         }
     ) {
         Box(
@@ -43,7 +43,7 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                 modifier = Modifier.fillMaxSize(),
             ) {
                 Row(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Card(
@@ -71,7 +71,7 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                             contentAlignment = Alignment.Center,
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            Text(text = "Save the current location", textAlign = TextAlign.Center)
+                            Text(text = "Record the current location", textAlign = TextAlign.Center)
                         }
                     }
                 }
@@ -83,34 +83,24 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
 
 @Composable
 fun BannersAds() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp),
-    ) {
-        val adId = "ca-app-pub-3940256099942544/6300978111"
-        val adRequest = AdRequest.Builder().build()
-        AndroidView(
-            factory = { context ->
-                AdView(context).apply {
-                    setAdSize(AdSize.BANNER)
-                    adUnitId = adId
-                    loadAd(adRequest)
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            update = { adView ->
-                adView.loadAd(adRequest)
-
+    AndroidView(
+        factory = { context ->
+            AdView(context).apply {
+                setAdSize(AdSize.BANNER)
+                adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                loadAd(AdRequest.Builder().build())
             }
-        )
-    }
+        },
+        modifier = Modifier.fillMaxWidth(),
+        update = { adView ->
+            adView.loadAd(AdRequest.Builder().build())
+        }
+    )
 }
 
 @Preview
 @Composable
 fun HomeScreenPreview() {
     HomeScreen() {
-
     }
 }
