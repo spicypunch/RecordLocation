@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -48,9 +53,12 @@ fun App(context: Context) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val dataStore = DataStoreModule(context)
+    var openDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
     NavHost(navController = navController, startDestination = "home") {
         composable(route = "home") {
-            HomeScreen() { result ->
+            HomeScreen { result ->
                 when (result) {
                     1 -> navController.navigate("map")
                     2 -> {
@@ -58,7 +66,7 @@ fun App(context: Context) {
                         scope.launch {
                             dataStore.saveLatitude(latLng.latitude)
                             dataStore.saveLongitude(latLng.longitude)
-                            Toast.makeText(context, "location has been saved.", Toast.LENGTH_SHORT).show()
+                            openDialog = true
                         }
                     }
                 }
@@ -66,6 +74,11 @@ fun App(context: Context) {
         }
         composable(route = "map") {
             GoogleMapScreen()
+        }
+    }
+    if (openDialog) {
+        ShowDialog {
+            openDialog = false
         }
     }
 }
