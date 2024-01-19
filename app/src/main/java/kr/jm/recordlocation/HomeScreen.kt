@@ -75,7 +75,7 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                         }
                     }
                 }
-                BannersAds()
+//                BannersAds()
             }
         }
     }
