@@ -75,7 +75,7 @@ fun HomeScreen(onClicked: (Int) -> Unit) {
                         }
                     }
                 }
-//                BannersAds()
+                BannersAds()
             }
         }
     }
@@ -87,7 +87,7 @@ fun BannersAds() {
         factory = { context ->
             AdView(context).apply {
                 setAdSize(AdSize.BANNER)
-                adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                adUnitId = "ca-app-pub-6140257895494497/7134144124"
                 loadAd(AdRequest.Builder().build())
             }
         },
